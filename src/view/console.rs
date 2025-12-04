@@ -2,7 +2,6 @@ use super::get_results;
 use crate::repository::QueryExecutor;
 use anyhow::Context;
 use colored::Colorize;
-use rustyline::config::Configurer;
 use std::io::Write;
 use std::path::PathBuf;
 
@@ -35,7 +34,6 @@ impl<D: QueryExecutor> Console<D> {
         print_help(std::io::stdout(), &self.db_client.db_uri(), true);
 
         let mut editor = rustyline::DefaultEditor::new()?;
-        editor.set_completion_type(rustyline::CompletionType::Circular);
         let _ = editor.load_history(&self.history_file_path);
 
         loop {
