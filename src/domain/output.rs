@@ -4,13 +4,17 @@ pub enum OutputFormat {
     Json,
 }
 
-impl std::fmt::Display for OutputFormat {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let value = match self {
+impl OutputFormat {
+    pub fn extension(&self) -> &'static str {
+        match self {
             OutputFormat::Csv => "csv",
             OutputFormat::Json => "json",
-        };
+        }
+    }
+}
 
-        write!(f, "{}", value)
+impl std::fmt::Display for OutputFormat {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.extension())
     }
 }
