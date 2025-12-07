@@ -35,7 +35,7 @@ fmt-check:
     cargo fmt --all -- --check
 
 install:
-    cargo install --path . --profile dist
+    cargo install --path .
 
 lint:
     cargo clippy --all-targets
