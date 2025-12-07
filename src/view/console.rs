@@ -13,19 +13,6 @@ const BANNER: &str = include_str!("assets/logo.txt");
 const COMMANDS: &str = include_str!("assets/commands.txt");
 const KEYMAPS: &str = include_str!("assets/keymaps.txt");
 
-impl FromStr for OutputFormat {
-    type Err = &'static str;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let trimmed = s.trim();
-        match trimmed {
-            "csv" => Ok(Self::Csv),
-            "json" => Ok(Self::Json),
-            _ => Err("invalid format provided; allowed values: [csv, json]"),
-        }
-    }
-}
-
 pub struct ConsoleConfig {
     pub write_results: bool,
     pub results_directory: PathBuf,
