@@ -1,4 +1,5 @@
 use super::get_results;
+use crate::config::DEFAULT_RESULTS_DIR;
 use crate::domain::{OutputFormat, QueryResults};
 use crate::repository::QueryExecutor;
 use anyhow::Context;
@@ -11,7 +12,6 @@ use std::str::FromStr;
 const BANNER: &str = include_str!("assets/logo.txt");
 const COMMANDS: &str = include_str!("assets/commands.txt");
 const KEYMAPS: &str = include_str!("assets/keymaps.txt");
-const DEFAULT_OUTPUT_PATH: &str = ".gcue";
 
 impl FromStr for OutputFormat {
     type Err = &'static str;
@@ -26,10 +26,10 @@ impl FromStr for OutputFormat {
     }
 }
 
-struct ConsoleConfig {
-    write_results: bool,
-    results_directory: PathBuf,
-    results_format: OutputFormat,
+pub struct ConsoleConfig {
+    pub write_results: bool,
+    pub results_directory: PathBuf,
+    pub results_format: OutputFormat,
 }
 
 pub struct Console<D: QueryExecutor> {
@@ -46,17 +46,11 @@ enum ConsoleColor {
 }
 
 impl<D: QueryExecutor> Console<D> {
-    pub fn new(db_client: D, history_file_path: PathBuf) -> Self {
-        let output_path = PathBuf::new().join(DEFAULT_OUTPUT_PATH);
-
+    pub fn new(db_client: D, history_file_path: PathBuf, config: ConsoleConfig) -> Self {
         Self {
             db_client,
             history_file_path,
-            config: ConsoleConfig {
-                write_results: false,
-                results_directory: output_path,
-                results_format: OutputFormat::Csv,
-            },
+            config,
         }
     }
 
@@ -109,10 +103,10 @@ impl<D: QueryExecutor> Console<D> {
                 },
                 cmd if cmd.starts_with("output") => match cmd.split_once(" ") {
                     Some((_, "reset")) => {
-                        self.config.results_directory = PathBuf::new().join(DEFAULT_OUTPUT_PATH);
+                        self.config.results_directory = PathBuf::new().join(DEFAULT_RESULTS_DIR);
                         print_info(format!(
                             "output path changed to gcue's default: {}",
-                            DEFAULT_OUTPUT_PATH
+                            DEFAULT_RESULTS_DIR
                         ));
                     }
                     Some((_, arg)) => match PathBuf::from_str(arg) {
@@ -251,7 +245,7 @@ mod tests {
         let mut buf = Vec::new();
         let console_config = ConsoleConfig {
             results_format: OutputFormat::Csv,
-            results_directory: PathBuf::new().join(DEFAULT_OUTPUT_PATH),
+            results_directory: PathBuf::new().join(DEFAULT_RESULTS_DIR),
             write_results: false,
         };
 

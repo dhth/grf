@@ -34,7 +34,7 @@ fn shows_help() {
           --debug                           Output debug information without doing anything
       -W, --bench-num-warmup-runs <NUMBER>  Number of benchmark warmup runs [default: 3]
       -p, --print-query                     Print query
-      -w, --write-results                   Write results to file-system
+      -w, --write-results                   Write results to filesystem
       -d, --results-dir <DIRECTORY>         Directory to write results in [default: .gcue]
       -f, --results-format <FORMAT>         Format to write results in [default: csv] [possible values: csv, json]
       -h, --help                            Print help

@@ -1,12 +1,13 @@
 mod cli;
 mod cmds;
+mod config;
 mod domain;
 mod logging;
 mod repository;
 mod service;
 mod view;
 
-use crate::view::get_results;
+use crate::view::{ConsoleConfig, get_results};
 use anyhow::Context;
 use aws_config::BehaviorVersion;
 use aws_sdk_neptunedata::config::ProvideCredentials;
@@ -31,7 +32,11 @@ async fn main() -> anyhow::Result<()> {
     }
 
     match args.command {
-        cli::GraphQCommand::Console => {
+        cli::GraphQCommand::Console {
+            write_results,
+            results_directory,
+            results_format,
+        } => {
             let db_client = get_db_client().await?;
             let history_file_path = xdg.data_dir().join("gcue").join("history.txt");
 
@@ -44,7 +49,12 @@ async fn main() -> anyhow::Result<()> {
                 })?;
             }
 
-            let mut console = Console::new(db_client, history_file_path);
+            let console_config = ConsoleConfig {
+                write_results,
+                results_directory,
+                results_format,
+            };
+            let mut console = Console::new(db_client, history_file_path, console_config);
             console.run_loop().await?;
         }
         cli::GraphQCommand::Query {

@@ -1,8 +1,7 @@
-use std::path::PathBuf;
-
-use clap::{Parser, Subcommand};
-
+use crate::config::DEFAULT_RESULTS_DIR;
 use crate::domain::{BenchmarkNumRuns, OutputFormat};
+use clap::{Parser, Subcommand};
+use std::path::PathBuf;
 
 /// gcue lets you query Neo4j/AWS Neptune databases via an interactive console
 #[derive(Parser, Debug)]
@@ -18,7 +17,27 @@ pub struct Args {
 pub enum GraphQCommand {
     /// Open gcue's console
     #[command()]
-    Console,
+    Console {
+        /// Write results to filesystem
+        #[arg(short = 'w', long = "write-results")]
+        write_results: bool,
+        /// Directory to write results in
+        #[arg(
+            short = 'd',
+            long = "results-dir",
+            value_name = "DIRECTORY",
+            default_value = DEFAULT_RESULTS_DIR,
+        )]
+        results_directory: PathBuf,
+        /// Format to write results in
+        #[arg(
+            short = 'f',
+            long = "results-format",
+            value_name = "FORMAT",
+            default_value = "csv"
+        )]
+        results_format: OutputFormat,
+    },
     /// Execute a one-off query
     #[command()]
     Query {
@@ -47,7 +66,7 @@ pub enum GraphQCommand {
         /// Print query
         #[arg(short = 'p', long = "print-query")]
         print_query: bool,
-        /// Write results to file-system
+        /// Write results to filesystem
         #[arg(short = 'w', long = "write-results")]
         write_results: bool,
         /// Directory to write results in
@@ -55,7 +74,7 @@ pub enum GraphQCommand {
             short = 'd',
             long = "results-dir",
             value_name = "DIRECTORY",
-            default_value = ".gcue"
+            default_value = DEFAULT_RESULTS_DIR,
         )]
         results_directory: PathBuf,
         /// Format to write results in
@@ -72,10 +91,21 @@ pub enum GraphQCommand {
 impl std::fmt::Display for Args {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let output = match &self.command {
-            GraphQCommand::Console => r#"
+            GraphQCommand::Console {
+                write_results,
+                results_directory,
+                results_format,
+            } => format!(
+                "
 command:                    console
-"#
-            .to_string(),
+write results:              {}
+results directory:          {}
+results format:             {}
+",
+                write_results,
+                results_directory.to_string_lossy(),
+                results_format
+            ),
             GraphQCommand::Query {
                 query,
                 benchmark,
