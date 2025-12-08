@@ -96,6 +96,9 @@ impl<D: QueryExecutor> Console<D> {
                                     print_error(format!("Error: couldn't turn on pager: {:#}", e));
                                 }
                             }
+                        } else if !self.config.page_results {
+                            self.config.page_results = true;
+                            print_info("paging results turned ON");
                         }
                     }
                     Some((_, "off")) => {

@@ -31,20 +31,7 @@ impl Pager {
 
 impl Pager {
     pub fn get_command(&self) -> Command {
-        match &self.0 {
-            PagerInner::Default => {
-                let mut cmd = Command::new("less");
-                cmd.arg("-+F");
-                cmd
-            }
-            PagerInner::Custom(custom_pager) => {
-                let mut cmd = Command::new(&custom_pager.binary);
-                if !custom_pager.args.is_empty() {
-                    cmd.args(&custom_pager.args);
-                }
-                cmd
-            }
-        }
+        self.0.get_command()
     }
 }
 
@@ -58,6 +45,23 @@ impl PagerInner {
         match self {
             Self::Default => "less".to_string(),
             Self::Custom(custom_pager) => custom_pager.binary.clone(),
+        }
+    }
+
+    fn get_command(&self) -> Command {
+        match self {
+            PagerInner::Default => {
+                let mut cmd = Command::new("less");
+                cmd.arg("-+F");
+                cmd
+            }
+            PagerInner::Custom(custom_pager) => {
+                let mut cmd = Command::new(&custom_pager.binary);
+                if !custom_pager.args.is_empty() {
+                    cmd.args(&custom_pager.args);
+                }
+                cmd
+            }
         }
     }
 }
