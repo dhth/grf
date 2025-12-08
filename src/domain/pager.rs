@@ -168,7 +168,6 @@ mod tests {
         let result = CustomPager::try_from(pager_cmd).expect_err("result should've been an error");
 
         // THEN
-        // assert_debug_snapshot!(result, @r#""couldn't parse value into a command""#);
         assert_snapshot!(result, @"couldn't parse command");
     }
 }
