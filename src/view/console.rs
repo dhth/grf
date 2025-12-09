@@ -81,7 +81,7 @@ impl<D: QueryExecutor> Console<D> {
                     {
                         break;
                     }
-                    print_hint("press ctrl+c again within a second to quit");
+                    print_hint("press ctrl+c again to exit");
                     self.last_ctrl_c = Some(Instant::now());
                     continue;
                 }
