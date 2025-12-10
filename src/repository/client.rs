@@ -56,7 +56,7 @@ pub async fn get_db_client() -> Result<DbClient, DbClientError> {
     }
 
     let db_client = match db_uri.split_once("://") {
-        Some(("http", _)) | Some(("https", _)) => {
+        Some(("https", _)) => {
             let sdk_config = aws_config::load_defaults(BehaviorVersion::latest()).await;
             if let Some(provider) = sdk_config.credentials_provider() {
                 provider

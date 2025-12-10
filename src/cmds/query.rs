@@ -75,7 +75,7 @@ pub async fn handle_query_cmd(
                 None
             };
 
-            let results = execute_query(&db_client, &query).await?;
+            let results = db_client.execute_query(&query).await?;
             let results = match results {
                 QueryResults::Empty => {
                     println!("No results");
@@ -117,12 +117,6 @@ pub async fn handle_query_cmd(
     }
 
     Ok(())
-}
-
-async fn execute_query(db_client: &DbClient, query: &str) -> anyhow::Result<QueryResults> {
-    let results = db_client.execute_query(query).await?;
-
-    Ok(results)
 }
 
 async fn benchmark_query(
