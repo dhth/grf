@@ -41,11 +41,7 @@ enum ConsoleColor {
 }
 
 impl<D: QueryExecutor> Console<D> {
-    pub fn new(
-        db_client: D,
-        config: ConsoleConfig,
-        pager: Option<Pager>,
-    ) -> Self {
+    pub fn new(db_client: D, config: ConsoleConfig, pager: Option<Pager>) -> Self {
         Self {
             db_client,
             config,

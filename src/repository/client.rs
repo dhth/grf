@@ -41,8 +41,8 @@ pub enum DbClientError {
     DBUriNotSet,
     #[error(r#"DB_URI has an unsupported protocol: "{0}""#)]
     DBUriHasUnsupportedProtocol(String),
-    #[error("DB_URI is invalid")]
-    DBUriIsInvalid,
+    #[error(r#"DB_URI is invalid: "{0}""#)]
+    DBUriIsInvalid(String),
     #[error(transparent)]
     Uncategorized(#[from] anyhow::Error),
 }
@@ -85,7 +85,7 @@ pub async fn get_db_client() -> Result<DbClient, DbClientError> {
         Some((protocol, _)) => Err(DbClientError::DBUriHasUnsupportedProtocol(
             protocol.to_string(),
         )),
-        None => Err(DbClientError::DBUriIsInvalid),
+        None => Err(DbClientError::DBUriIsInvalid(db_uri)),
     }?;
 
     Ok(db_client)

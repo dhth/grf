@@ -1,5 +1,7 @@
 use crate::cli::{Args, GraphQCommand};
-use crate::cmds::{ConsoleCmdError, QueryBehaviour, handle_console_cmd, handle_query_cmd};
+use crate::cmds::{
+    ConsoleCmdError, QueryBehaviour, QueryCmdError, handle_console_cmd, handle_query_cmd,
+};
 use crate::view::ConsoleConfig;
 use clap::Parser;
 use etcetera::{BaseStrategy, HomeDirError};
@@ -8,10 +10,12 @@ use etcetera::{BaseStrategy, HomeDirError};
 pub enum AppError {
     #[error("couldn't determine your home directory: {0}")]
     XdgError(#[from] HomeDirError),
-    #[error("0")]
+    #[error("{0}")]
     InvalidCLIUsage(&'static str),
     #[error(transparent)]
     ConsoleCmdError(#[from] ConsoleCmdError),
+    #[error(transparent)]
+    QueryCmdError(#[from] QueryCmdError),
     #[error(transparent)]
     Uncategorised(#[from] anyhow::Error),
 }
@@ -20,8 +24,9 @@ impl AppError {
     pub fn follow_up(&self) -> Option<String> {
         match self {
             AppError::XdgError(_) => None,
-            AppError::ConsoleCmdError(_) => None,
             AppError::InvalidCLIUsage(_) => None,
+            AppError::ConsoleCmdError(_) => None,
+            AppError::QueryCmdError(_) => None,
             AppError::Uncategorised(_) => None,
         }
     }
@@ -29,8 +34,9 @@ impl AppError {
     pub fn is_unexpected(&self) -> bool {
         match self {
             AppError::XdgError(_) => true,
-            AppError::ConsoleCmdError(_) => false,
             AppError::InvalidCLIUsage(_) => false,
+            AppError::ConsoleCmdError(_) => false,
+            AppError::QueryCmdError(_) => false,
             AppError::Uncategorised(_) => false,
         }
     }

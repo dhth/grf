@@ -1,5 +1,5 @@
 use crate::domain::{BenchmarkNumRuns, OutputFormat, QueryResults};
-use crate::repository::{DbClient, QueryExecutor, get_db_client};
+use crate::repository::{DbClient, DbClientError, QueryExecutor, get_db_client};
 use crate::utils::get_pager;
 use crate::view::get_results;
 use anyhow::Context;
@@ -22,11 +22,19 @@ pub enum QueryBehaviour {
     },
 }
 
+#[derive(Debug, thiserror::Error)]
+pub enum QueryCmdError {
+    #[error("couldn't build db client: {0}")]
+    CouldntBuildDbClient(#[from] DbClientError),
+    #[error(transparent)]
+    Uncategorised(#[from] anyhow::Error),
+}
+
 pub async fn handle_query_cmd(
     query: String,
     behaviour: QueryBehaviour,
     print_query: bool,
-) -> anyhow::Result<()> {
+) -> Result<(), QueryCmdError> {
     let db_client = get_db_client().await?;
 
     let query = if query == "-" {
