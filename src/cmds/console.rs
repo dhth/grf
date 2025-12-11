@@ -17,7 +17,7 @@ pub async fn handle_console_cmd(config: ConsoleConfig) -> Result<(), ConsoleCmdE
     if let Some(parent) = config.history_file_path.parent() {
         tokio::fs::create_dir_all(parent).await.with_context(|| {
             format!(
-                "couldn't create directory for grf's history: {}",
+                "couldn't create directory for grafq's history: {}",
                 parent.display(),
             )
         })?;

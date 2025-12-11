@@ -19,14 +19,14 @@ fn shows_help() {
     success: true
     exit_code: 0
     ----- stdout -----
-    Open grf's console
+    Open grafq's console
 
-    Usage: grf console [OPTIONS]
+    Usage: grafq console [OPTIONS]
 
     Options:
-      -p, --page-results             Display results via a pager ("less", by default, can be overridden by $GRF_PAGER)
+      -p, --page-results             Display results via a pager ("less", by default, can be overridden by $GRAFQ_PAGER)
       -w, --write-results            Write results to filesystem
-      -d, --results-dir <DIRECTORY>  Directory to write results in [default: .grf]
+      -d, --results-dir <DIRECTORY>  Directory to write results in [default: .grafq]
           --debug                    Output debug information without doing anything
       -f, --results-format <FORMAT>  Format to write results in [default: json] [possible values: csv, json]
       -h, --help                     Print help
@@ -52,7 +52,7 @@ fn debug_flag_works_for_defaults() {
     command:                    console
     display results via pager:  false
     write results:              false
-    results directory:          .grf
+    results directory:          .grafq
     results format:             json
 
     ----- stderr -----

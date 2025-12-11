@@ -49,7 +49,7 @@ fn follow_up_db_client_error(err: &DbClientError) -> Option<String> {
         DbClientError::CouldntReadEnvVar(_) => None,
         DbClientError::DBUriNotSet => Some(
             "
-grf requires the environment variable DB_URI to be set. You can set it as follows:
+grafq requires the environment variable DB_URI to be set. You can set it as follows:
 - bolt://127.0.0.1:7687 (for neo4j)
 - https://abc.xyz.us-east-1.neptune.amazonaws.com:8182 (for AWS Neptune)
 "
@@ -58,7 +58,7 @@ grf requires the environment variable DB_URI to be set. You can set it as follow
         ),
         DbClientError::DBUriHasUnsupportedProtocol(_) => Some(
             "
-Only 'bolt' and 'https' protocols are supported by grf.
+Only 'bolt' and 'https' protocols are supported by grafq.
 Use bolt for neo4j, and https for AWS Neptune.
 "
             .trim()

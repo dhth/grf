@@ -3,15 +3,15 @@ source: src/view/console.rs
 expression: result
 ---
 
-                         ████░
-                       ██░    
-   ██████░ ████░ ██░ ██████░  
- ██░   ██░   ████░     ██░    
- ██████░     ██░       ██░    
-   ██░       ██░       ██░    
- ████████░ ██████░   ██████░  
- ██░   ██░                    
-   ████░                      
+                                     ████░            
+                                   ██░                
+   ██████░ ████░ ██░   ████░     ██████░     ████████░
+ ██░   ██░   ████░         ██░     ██░     ██░   ██░  
+ ██████░     ██░       ██████░     ██░     ██░   ██░  
+   ██░       ██░     ██░   ██░     ██░     ██░   ██░  
+ ████████░ ██████░     ████████░ ██████░     ██████░  
+ ██░   ██░                                       ██░  
+   ████░                                       ██████░
 
 
  connected to: https://db.cluster-cf0abc1xyzjk.us-east-1.neptune.amazonaws.com:8182
@@ -20,7 +20,7 @@ expression: result
    page results                   OFF
    write results to filesystem    OFF
    output format                  csv
-   output path                    .grf
+   output path                    .grafq
 
  commands
    clear                          clear screen

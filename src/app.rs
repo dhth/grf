@@ -27,7 +27,7 @@ pub async fn run() -> Result<(), AppError> {
                 write_results,
                 results_directory,
                 results_format,
-                history_file_path: xdg.data_dir().join("grf").join("history.txt"),
+                history_file_path: xdg.data_dir().join("grafq").join("history.txt"),
             };
 
             handle_console_cmd(console_config).await?;

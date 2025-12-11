@@ -9,7 +9,7 @@ impl Pager {
 
         let binary = pager.binary();
         which::which(&binary).with_context(|| {
-            format!(r#"couldn't find executable for grf's default pager "{binary}""#)
+            format!(r#"couldn't find executable for grafq's default pager "{binary}""#)
         })?;
 
         Ok(Self(pager))

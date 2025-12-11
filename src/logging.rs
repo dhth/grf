@@ -33,7 +33,7 @@ fn get_log_file_path(xdg: &Xdg) -> anyhow::Result<PathBuf> {
     std::fs::create_dir_all(&log_dir).context("couldn't create log directory")?;
 
     // TODO: add clean up for long log files
-    Ok(log_dir.join("grf.log"))
+    Ok(log_dir.join("grafq.log"))
 }
 
 #[cfg(not(target_os = "windows"))]
@@ -43,15 +43,15 @@ fn get_log_dir(xdg: &Xdg) -> anyhow::Result<PathBuf> {
 
     let log_dir = xdg
         .state_dir() // this always returns Some on unix, but adding a fallback regardless
-        .map(|d| d.join("grf"))
-        .unwrap_or_else(|| xdg.home_dir().join(".grf"));
+        .map(|d| d.join("grafq"))
+        .unwrap_or_else(|| xdg.home_dir().join(".grafq"));
 
     Ok(log_dir)
 }
 
 #[cfg(target_os = "windows")]
 fn get_log_dir(xdg: &Xdg) -> anyhow::Result<PathBuf> {
-    let log_dir = xdg.cache_dir().join("grf");
+    let log_dir = xdg.cache_dir().join("grafq");
 
     Ok(log_dir)
 }

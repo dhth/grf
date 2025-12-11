@@ -24,7 +24,7 @@ async fn main() {
                 "
 ---
 This error is unexpected. 
-Let @dhth know about this via https://github.com/dhth/grf/issues.
+Let @dhth know about this via https://github.com/dhth/grafq/issues.
 "
             );
         }

@@ -1,1 +1,1 @@
-pub const DEFAULT_RESULTS_DIR: &str = ".grf";
+pub const DEFAULT_RESULTS_DIR: &str = ".grafq";

@@ -19,12 +19,12 @@ fn shows_help() {
     success: true
     exit_code: 0
     ----- stdout -----
-    grf lets you query Neo4j/AWS Neptune databases via an interactive console
+    grafq lets you query Neo4j/AWS Neptune databases via an interactive console
 
-    Usage: grf [OPTIONS] <COMMAND>
+    Usage: grafq [OPTIONS] <COMMAND>
 
     Commands:
-      console  Open grf's console
+      console  Open grafq's console
       query    Execute a one-off query
       help     Print this message or the help of the given subcommand(s)
 

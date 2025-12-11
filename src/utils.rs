@@ -1,7 +1,7 @@
 use crate::domain::Pager;
 
 pub fn get_pager() -> anyhow::Result<Pager> {
-    let pager_env_var = get_env_var("GRF_PAGER")?;
+    let pager_env_var = get_env_var("GRAFQ_PAGER")?;
     let pager = match pager_env_var {
         Some(p) => Pager::custom(&p)?,
         None => Pager::default()?,
