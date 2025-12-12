@@ -8,7 +8,9 @@
 `grafq` (short for "graph query") lets you query Neo4j/AWS Neptune databases via
 an interactive console.
 
-It is a Rust port of [graphc].
+*It is a Rust port of [graphc].*
+
+![console](https://tools.dhruvs.space/images/grafq/v0-1-0/console.png)
 
 > [!NOTE]
 > grafq is alpha software. Its interface and behaviour might change in the near
@@ -61,6 +63,8 @@ Console Mode
 You can either print the results in the console, or have them piped through a
 pager. Additionally, you can also write the results to your local filesystem.
 
+[![console mode](https://asciinema.org/a/wUnUixCU6l0OTIBh2JfGr7mT9.svg)](https://asciinema.org/a/wUnUixCU6l0OTIBh2JfGr7mT9)
+
 ```bash
 grafq console -h
 ```
@@ -107,6 +111,8 @@ Query Mode
 ---
 
 "query mode" is for running one-off queries or for benchmarking them.
+
+[![query mode](https://asciinema.org/a/BVpLfCWiwVH4CL2X6bpqdplez.svg)](https://asciinema.org/a/BVpLfCWiwVH4CL2X6bpqdplez)
 
 ```bash
 grafq query -h
