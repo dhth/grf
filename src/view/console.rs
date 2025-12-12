@@ -165,11 +165,11 @@ impl<D: QueryExecutor> Console<D> {
                 cmd if cmd.starts_with("write") => match cmd.split_once(" ") {
                     Some((_, "on")) => {
                         self.config.write_results = true;
-                        print_info("writing output turned ON");
+                        print_info("writing results turned ON");
                     }
                     Some((_, "off")) => {
                         self.config.write_results = false;
-                        print_info("writing output turned OFF");
+                        print_info("writing results turned OFF");
                     }
                     _ => print_error("Usage: write on/off"),
                 },
