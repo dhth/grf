@@ -44,8 +44,8 @@ pub enum DbClientError {
     DBUriIsInvalid(String),
     #[error(r#"environment variable "{0}" is missing"#)]
     Neo4jConnectionInfoMissing(String),
-    #[error(transparent)]
-    Uncategorized(#[from] anyhow::Error),
+    #[error("{0:#}")]
+    Uncategorised(#[from] anyhow::Error),
 }
 
 pub async fn get_db_client() -> Result<DbClient, DbClientError> {

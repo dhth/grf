@@ -7,7 +7,7 @@ use anyhow::Context;
 pub enum ConsoleCmdError {
     #[error("couldn't build db client: {0}")]
     CouldntBuildDbClient(#[from] DbClientError),
-    #[error(transparent)]
+    #[error("{0:#}")]
     Uncategorised(#[from] anyhow::Error),
 }
 

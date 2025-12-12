@@ -12,7 +12,7 @@ pub enum AppError {
     ConsoleCmdError(#[from] ConsoleCmdError),
     #[error(transparent)]
     QueryCmdError(#[from] QueryCmdError),
-    #[error(transparent)]
+    #[error("{0:#}")]
     Uncategorised(#[from] anyhow::Error),
 }
 
@@ -92,6 +92,6 @@ to a neo4j database (which was determined by the bolt protocol in DB_URI).
             .trim()
             .into(),
         ),
-        DbClientError::Uncategorized(_) => None,
+        DbClientError::Uncategorised(_) => None,
     }
 }
