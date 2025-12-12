@@ -13,13 +13,19 @@ mod view;
 #[tokio::main]
 async fn main() {
     if let Err(e) = app::run().await {
-        eprintln!("Error: {e}");
+        let follow_up = e.follow_up();
+        let is_unexpected = e.is_unexpected();
 
-        if let Some(follow_up) = e.follow_up() {
-            eprintln!("\n{follow_up}");
+        eprintln!("Error: {:?}", anyhow::anyhow!(e));
+
+        if let Some(f) = follow_up {
+            eprintln!(
+                "
+{f}"
+            );
         }
 
-        if e.is_unexpected() {
+        if is_unexpected {
             eprint!(
                 "
 ---

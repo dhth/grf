@@ -24,9 +24,9 @@ pub enum QueryBehaviour {
 
 #[derive(Debug, thiserror::Error)]
 pub enum QueryCmdError {
-    #[error("couldn't build db client: {0}")]
+    #[error("couldn't build db client")]
     CouldntBuildDbClient(#[from] DbClientError),
-    #[error("{0:#}")]
+    #[error(transparent)]
     Uncategorised(#[from] anyhow::Error),
 }
 
