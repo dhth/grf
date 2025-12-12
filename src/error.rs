@@ -4,7 +4,7 @@ use etcetera::HomeDirError;
 
 #[derive(Debug, thiserror::Error)]
 pub enum AppError {
-    #[error("couldn't determine your home directory: {0}")]
+    #[error("couldn't determine your home directory")]
     XdgError(#[from] HomeDirError),
     #[error("{0}")]
     InvalidCLIUsage(&'static str),
@@ -12,7 +12,7 @@ pub enum AppError {
     ConsoleCmdError(#[from] ConsoleCmdError),
     #[error(transparent)]
     QueryCmdError(#[from] QueryCmdError),
-    #[error("{0:#}")]
+    #[error(transparent)]
     Uncategorised(#[from] anyhow::Error),
 }
 
@@ -67,9 +67,9 @@ grafq requires the environment variable DB_URI to be set.
             .trim()
             .into(),
         ),
-        DbClientError::DBUriHasUnsupportedProtocol(_) => Some(
+        DbClientError::DBUriHasUnsupportedScheme(_) => Some(
             "
-Only 'bolt' and 'https' protocols are supported by grafq.
+Only 'bolt' and 'https' schemes are supported by grafq.
 Use bolt for neo4j, and https for AWS Neptune.
 "
             .trim()
@@ -77,7 +77,7 @@ Use bolt for neo4j, and https for AWS Neptune.
         ),
         DbClientError::DBUriIsInvalid(_) => Some(
             "
-The URI needs to be in the form <protocol>://<host>:<port>. For example:
+The URI needs to be in the form <scheme>://<host>:<port>. For example:
 - bolt://127.0.0.1:7687 (for neo4j)
 - https://abc.xyz.us-east-1.neptune.amazonaws.com:8182 (for AWS Neptune)
 "
@@ -87,7 +87,7 @@ The URI needs to be in the form <protocol>://<host>:<port>. For example:
         DbClientError::Neo4jConnectionInfoMissing(_) => Some(
             "
 The environment variables NEO4J_USER, NEO4J_PASSWORD, and NEO4J_DB need to be set when connecting
-to a neo4j database (which was determined by the bolt protocol in DB_URI).
+to a neo4j database (which was determined by the bolt scheme in DB_URI).
             "
             .trim()
             .into(),

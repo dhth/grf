@@ -156,6 +156,92 @@ fn debug_flag_works_for_write_results_flags() {
 //-------------//
 
 #[test]
+fn fails_if_provided_with_no_db_uri() {
+    // GIVEN
+    let fx = Fixture::new();
+    let mut cmd = fx.cmd(["query", QUERY]);
+
+    // WHEN
+    // THEN
+    assert_cmd_snapshot!(cmd, @r#"
+    success: false
+    exit_code: 1
+    ----- stdout -----
+
+    ----- stderr -----
+    Error: couldn't build db client
+
+    Caused by:
+        DB_URI is not set
+
+    grafq requires the environment variable DB_URI to be set.
+
+    - For an AWS Neptune database, use the https scheme. Neptune uses IAM
+        authentication, so ensure your AWS credentials are configured correctly (via
+        environment variables or the AWS shared config file):
+
+        DB_URI="https://abc.xyz.us-east-1.neptune.amazonaws.com:8182"
+
+    - For a Neo4j database, use the bolt scheme and provide authentication details:
+
+        DB_URI="bolt://127.0.0.1:7687"
+        NEO4J_USER="neo4j"
+        NEO4J_PASSWORD="your-password"
+        NEO4J_DB="neo4j"
+    "#);
+}
+
+#[test]
+fn fails_if_provided_with_invalid_db_uri_scheme() {
+    // GIVEN
+    let fx = Fixture::new();
+    let mut cmd = fx.cmd(["query", QUERY]);
+    cmd.env("DB_URI", "invalid://abc.xyz:8182");
+
+    // WHEN
+    // THEN
+    assert_cmd_snapshot!(cmd, @r#"
+    success: false
+    exit_code: 1
+    ----- stdout -----
+
+    ----- stderr -----
+    Error: couldn't build db client
+
+    Caused by:
+        DB_URI has unsupported scheme: "invalid"
+
+    Only 'bolt' and 'https' schemes are supported by grafq.
+    Use bolt for neo4j, and https for AWS Neptune.
+    "#);
+}
+
+#[test]
+fn fails_if_not_provided_with_neo4j_auth() {
+    // GIVEN
+    let fx = Fixture::new();
+    let mut cmd = fx.cmd(["query", QUERY]);
+    cmd.env("DB_URI", "bolt://127.0.0.1:7687");
+
+    // WHEN
+    // THEN
+    assert_cmd_snapshot!(cmd, @r#"
+    success: false
+    exit_code: 1
+    ----- stdout -----
+
+    ----- stderr -----
+    Error: couldn't build db client
+
+    Caused by:
+        environment variable "NEO4J_USER" is missing
+
+    The environment variables NEO4J_USER, NEO4J_PASSWORD, and NEO4J_DB need to be set when connecting
+    to a neo4j database (which was determined by the bolt scheme in DB_URI).
+    "#);
+}
+
+#[test]
 fn fails_if_provided_with_incorrect_benchmark_num_runs() {
     // GIVEN
     let fx = Fixture::new();

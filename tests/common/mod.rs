@@ -20,6 +20,7 @@ impl Fixture {
     {
         let mut command = Command::new(&self.bin_path);
         command.args(args);
+        command.env_clear();
 
         command
     }

@@ -38,13 +38,13 @@ pub enum DbClientError {
     CouldntReadEnvVar(#[from] EnvVarError),
     #[error("DB_URI is not set")]
     DBUriNotSet,
-    #[error(r#"DB_URI has an unsupported protocol: "{0}""#)]
-    DBUriHasUnsupportedProtocol(String),
+    #[error(r#"DB_URI has unsupported scheme: "{0}""#)]
+    DBUriHasUnsupportedScheme(String),
     #[error(r#"DB_URI is invalid: "{0}""#)]
     DBUriIsInvalid(String),
     #[error(r#"environment variable "{0}" is missing"#)]
     Neo4jConnectionInfoMissing(String),
-    #[error("{0:#}")]
+    #[error(transparent)]
     Uncategorised(#[from] anyhow::Error),
 }
 
@@ -83,9 +83,7 @@ pub async fn get_db_client() -> Result<DbClient, DbClientError> {
             let neo4j_client = Neo4jClient::new(&config).await?;
             Ok(DbClient::Neo4j(neo4j_client))
         }
-        Some((protocol, _)) => Err(DbClientError::DBUriHasUnsupportedProtocol(
-            protocol.to_string(),
-        )),
+        Some((scheme, _)) => Err(DbClientError::DBUriHasUnsupportedScheme(scheme.to_string())),
         None => Err(DbClientError::DBUriIsInvalid(db_uri)),
     }?;
 
