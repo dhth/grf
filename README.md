@@ -2,6 +2,9 @@
   <h1 align="center">grafq</h1>
   <p align="center">
     <a href="https://github.com/dhth/grafq/actions/workflows/main.yml"><img alt="GitHub release" src="https://img.shields.io/github/actions/workflow/status/dhth/grafq/main.yml?style=flat-square"></a>
+    <a href="https://crates.io/crates/grafq"><img alt="GitHub release" src="https://img.shields.io/crates/v/grafq?style=flat-square"></a>
+    <a href="https://github.com/dhth/grafq/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/release/dhth/grafq.svg?style=flat-square"></a>
+    <a href="https://github.com/dhth/grafq/releases"><img alt="Commits since latest release" src="https://img.shields.io/github/commits-since/dhth/grafq/latest?style=flat-square"></a>
   </p>
 </p>
 
@@ -9,10 +12,6 @@
 an interactive console.
 
 ![console](https://tools.dhruvs.space/images/grafq/v0-1-0/console.png)
-
-> [!NOTE]
-> grafq is alpha software. Its interface and behaviour might change in the near
-> future.
 
 🤔 Motivation
 ---
@@ -25,8 +24,16 @@ the local filesystem.
 💾 Installation
 ---
 
+**homebrew**:
+
 ```sh
-cargo install --git https://github.com/dhth/grafq
+brew install dhth/tap/grafq
+```
+
+**cargo**:
+
+```sh
+cargo install grafq
 ```
 
 ⚡️ Usage
